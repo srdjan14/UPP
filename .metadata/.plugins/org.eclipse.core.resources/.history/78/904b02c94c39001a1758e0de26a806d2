@@ -1,0 +1,11 @@
+package root.demo.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import root.demo.entity.RegistratedUser;
+
+@Repository
+public interface UserRepository extends JpaRepository<RegistratedUser, Long> {
+//	RegistratedUser findByUsername(String username);
+}

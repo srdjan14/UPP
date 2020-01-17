@@ -1,0 +1,12 @@
+package root.demo.util;
+
+import org.mapstruct.Mapper;
+
+import root.demo.entity.RegistratedUser;
+import root.demo.model.UserRegistrationDto;
+
+@Mapper
+public interface UserMapper {
+//	RegistratedUser map(UserRegistrationDto source);
+//	UserRegistrationDto map(RegistratedUser user);
+}

@@ -1,0 +1,33 @@
+package root.demo.services;
+
+import javax.ws.rs.BadRequestException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import root.demo.entity.RegistratedUser;
+import root.demo.model.UserRegistrationDto;
+import root.demo.repository.UserRepository;
+import root.demo.util.UserMapper;
+
+@Service
+public class UserService implements IUserService {
+//
+//	@Autowired
+//	UserRepository userRepository;
+//	
+//	@Autowired
+//    UserMapper userMapper;
+//	
+//	@Override
+//    public UserRegistrationDto activatingUser(String username) {
+//        RegistratedUser regUser = userRepository.findByUsername(username);
+//        if(regUser==null) {
+//        	throw new BadRequestException(String.format("Korisnik %s ne postoji", username));
+//        }
+//        
+//        regUser.setAktivan(true);
+//        regUser = userRepository.save(regUser);
+//        return userMapper.map(regUser);
+//    }
+}

@@ -1,0 +1,9 @@
+package root.demo.services;
+
+import root.demo.entity.RegistratedUser;
+import root.demo.model.UserRegistrationDto;
+
+public interface IUserService {
+	
+//	UserRegistrationDto activatingUser(String username);
+}

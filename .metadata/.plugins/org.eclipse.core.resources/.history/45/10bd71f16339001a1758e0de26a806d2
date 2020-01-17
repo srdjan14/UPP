@@ -1,0 +1,11 @@
+package root.demo.services;
+
+import root.demo.model.UserDto;
+import root.demo.model.UserRegistrationDto;
+
+public interface IRegistrationService {
+
+	UserDto registration(UserRegistrationDto registrationDto, String processId);
+
+	UserRegistrationDto activateUser(String usernam);
+}

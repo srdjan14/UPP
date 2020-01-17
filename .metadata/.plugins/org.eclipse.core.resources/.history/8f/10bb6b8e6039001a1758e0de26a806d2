@@ -1,0 +1,81 @@
+package root.demo.services;
+
+import javax.ws.rs.BadRequestException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import root.demo.entity.RegistratedUser;
+import root.demo.model.UserDto;
+import root.demo.model.UserRegistrationDto;
+import root.demo.repository.UserRepository;
+
+@Service
+public class UserService implements IUserService {
+
+	@Autowired
+	UserRepository userRepository;
+	
+	 @Override
+	    public UserDto registrationUser(UserRegistrationDto registrationDTO) {
+	        RegistratedUser user = new RegistratedUser();
+
+	        user.setGrad(registrationDTO.getGrad());
+	        user.setDrzava(registrationDTO.getDrzava());
+	        user.setEmail(registrationDTO.getEmail());
+	        user.setUsername(registrationDTO.getUsername());
+	        user.setIme(registrationDTO.getIme());
+	        user.setRecezent(registrationDTO.getRecezent());
+	        user.setAktivan(registrationDTO.getAktivan());
+	        user.setPrezime(registrationDTO.getPrezime());
+	        user.setPassword(registrationDTO.getPassword());
+	        user.setTitula(registrationDTO.getTitula());
+	        user.setNaucna_oblast(registrationDTO.getNaucna_oblast());
+	        user = userRepository.save(user);
+	        
+	        UserRegistrationDto userDto = new UserRegistrationDto();
+	        mapUserDtoToUser(userDto);
+	        return userDto;
+	    }
+
+	
+	@Override
+    public UserRegistrationDto activatingUser(String username) {
+        RegistratedUser regUser = userRepository.findByUsername(username);
+        if(regUser==null) {
+        	throw new BadRequestException(String.format("Korisnik %s ne postoji", username));
+        }
+        
+        regUser.setAktivan(true);
+        RegistratedUser savedRegUser = userRepository.save(regUser);
+        return mapUserToUserResponse(savedRegUser);
+    }
+	
+	private UserRegistrationDto mapUserToUserResponse(RegistratedUser user) {
+		UserRegistrationDto userDto = new UserRegistrationDto();
+		userDto.setIme(user.getIme());
+		userDto.setPrezime(user.getPrezime());
+		userDto.setDrzava(user.getDrzava());
+		userDto.setGrad(user.getGrad());
+		userDto.setEmail(user.getEmail());
+		userDto.setNaucna_oblast(user.getNaucna_oblast());
+		userDto.setRecezent(user.getRecezent());
+		userDto.setTitula(user.getTitula());
+		userDto.setUsername(user.getUsername());
+		return userDto;
+	}
+	
+	private RegistratedUser mapUserDtoToUser(UserRegistrationDto userDto) {
+		RegistratedUser user = new RegistratedUser();
+		user.setIme(userDto.getIme());
+		user.setPrezime(userDto.getPrezime());
+		user.setDrzava(userDto.getDrzava());
+		user.setGrad(userDto.getGrad());
+		user.setEmail(userDto.getEmail());
+		user.setNaucna_oblast(userDto.getNaucna_oblast());
+		user.setRecezent(userDto.getRecezent());
+		user.setTitula(userDto.getTitula());
+		user.setUsername(userDto.getUsername());
+		return user;
+	}
+}

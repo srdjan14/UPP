@@ -1,0 +1,82 @@
+package root.demo.services;
+
+import java.util.HashMap;
+
+import org.camunda.bpm.engine.FormService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import root.demo.entity.RegistratedUser;
+import root.demo.model.UserDto;
+import root.demo.model.UserRegistrationDto;
+import root.demo.repository.UserRepository;
+
+@Service
+public class RegistrationService implements IRegistrationService, JavaDelegate {
+
+	@Autowired
+	RuntimeService runtimeService;
+	
+	 @Autowired
+	 TaskService taskService;
+
+	 @Autowired
+	 FormService formService;
+	 
+	 @Autowired
+	 UserService userService;
+	 
+	 @Autowired
+	 UserRepository userRepo;
+	 
+//	 private final IRegistrationService regService;
+//	 
+//	 public RegistrationService(IRegistrationService regService) {
+//		 this.regService = regService;
+//	 }
+	
+	@Override
+	public UserDto registration(UserRegistrationDto registrationDto, String processId) {
+		 HashMap<String,Object> map = new HashMap<>();
+		 map.put("ime",registrationDto.getIme());
+		 map.put("prezime",registrationDto.getPrezime());
+	     map.put("grad",registrationDto.getGrad());
+	     map.put("drzava",registrationDto.getDrzava());
+	     map.put("email",registrationDto.getEmail());
+	     map.put("titula",registrationDto.getTitula());
+	     map.put("username",registrationDto.getUsername());
+	     map.put("password",registrationDto.getPassword());
+	     map.put("recenzent",registrationDto.getRecezent());
+	     map.put("naucna_oblast", registrationDto.getNaucna_oblast());
+	     
+	     runtimeService.setVariable(processId, "processId", processId);
+	     Task task = taskService.createTaskQuery().processInstanceId(processId).singleResult();
+	     formService.submitTaskForm(task.getId(),map);
+
+	     UserDto userDto = userService.registrationUser(registrationDto);
+	     return userDto;
+	}
+	
+	@Override
+    public UserRegistrationDto activateUser(String username, String processId) {
+		
+        Task task = taskService.createTaskQuery().processInstanceId(processId).singleResult();
+        HashMap<String,Object> mapa = new HashMap<>();
+        mapa.put("potvrda",true);
+        formService.submitTaskForm(task.getId(),mapa);
+        return userService.activatingUser(username);
+    }
+
+	@Override
+	public void execute(DelegateExecution execution) throws Exception {
+		
+	}
+
+	
+
+}
