@@ -1,0 +1,1 @@
+INSERT INTO registrated_user (id, ime, prezime, drzava, grad, email, username, password, recezent, naucna_oblast, titula) VALUES (1, 'Stevo', 'Stevic', 'Srbija', 'Novi Sad', 'stevo@gmail.com', 'stevo', 'stevo', true, 'fizika', 'Phd');

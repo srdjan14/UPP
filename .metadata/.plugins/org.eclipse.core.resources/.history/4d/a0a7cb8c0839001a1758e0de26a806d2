@@ -1,0 +1,5 @@
+package root.demo.entity;
+
+public class RegistratedUser {
+
+}

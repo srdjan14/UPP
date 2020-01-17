@@ -1,0 +1,13 @@
+package root.demo.services;
+
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+
+public class RegistrationService implements JavaDelegate {
+
+	@Override
+	public void execute(DelegateExecution execution) throws Exception {
+		execution.setVariable("Registracija", true);
+	}
+
+}
